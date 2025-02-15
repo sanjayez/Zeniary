@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import TimelineColor from "./Timeline/TimelineColor";
-import TimelineGray from "./Timeline/TimelineGray";
 import Timeline from "./Timeline";
 
 const Hero: React.FC = () => {
