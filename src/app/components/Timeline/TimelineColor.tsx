@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const TimelineColor: React.FC = (props) => {
+const TimelineColor: React.FC = () => {
   return (
     <svg
       className="absolute inset-0"
