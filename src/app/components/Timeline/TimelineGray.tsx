@@ -1,6 +1,6 @@
 import React from "react";
 
-const TimelineGray: React.FC = (props) => {
+const TimelineGray: React.FC = () => {
   return (
     <svg
       width="100%"
