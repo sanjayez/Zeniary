@@ -26,7 +26,7 @@ const Timeline: React.FC = () => {
     if (timelineRef.current && anchorRef.current && containerRef.current) {
       const timelineRect = timelineRef.current.getBoundingClientRect();
       const anchorRect = anchorRef.current.getBoundingClientRect();
-      const containerRect = containerRef.current.getBoundingClientRect();
+      // const containerRect = containerRef.current.getBoundingClientRect();
 
       // Right constraint: stops dragging when timeline's left edge reaches the anchor's right edge.
       const maxDragX = anchorRect.right - timelineRect.left;
