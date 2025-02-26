@@ -9,7 +9,7 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-export const dawning = Dawning_of_a_New_Day({
+const dawning = Dawning_of_a_New_Day({
   weight: ["400"],
   subsets: ["latin"],
   variable: "--font-dawning",
