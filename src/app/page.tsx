@@ -1,12 +1,24 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-
+import HeroMask from "./components/common/HeroMask";
+import SidekickSection from "./components/SideKick";
+import GreenBlobSidekick from "./components/common/GreenBlobSidekick";
+import Dashboard from "./components/Dashboard";
+import Security from "./components/Security/Security";
+import Privacy from "./components/Security/Privacy";
+import EarlyAccess from "./components/EarlyAccess";
+import Features from "./features/page";
 export default function Home() {
   return (
-    <>
-      <Navbar />
+    <div className="">
       <Hero />
-      <div className="h-screen w-full bg-blue-500"></div>
-    </>
+      {/* <GreenBlobSidekick /> */}
+      {/* <SidekickSection /> */}
+      <Features />
+      <Dashboard />
+      {/* <GreenBlobSidekick /> */}
+      <Privacy />
+      <EarlyAccess />
+    </div>
   );
 }
