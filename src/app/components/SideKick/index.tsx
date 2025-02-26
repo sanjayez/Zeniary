@@ -17,7 +17,7 @@ export default function index() {
           Your Chatty Empathetic Sidekick
         </p>
         <p className="mb-12 md:text-lg">
-          No more "Dear Diary" - Speak your mind
+          No more &quot;Dear Diary&quot; - Speak your mind
         </p>
 
         {/* Modes Container */}
@@ -30,8 +30,8 @@ export default function index() {
                   Chat Mode
                 </h2>
                 <p className="text-sm md:text-base text-gray-400">
-                  Spill all the tea - from cringy moments to "what on earth was
-                  I thinking" reflections without judgment
+                  Spill all the tea - from cringy moments to &quot;what on earth
+                  was I thinking&quot; reflections without judgment
                 </p>
               </div>
 
@@ -44,8 +44,8 @@ export default function index() {
                   Vent Mode
                 </h2>
                 <p className="text-sm md:text-base text-gray-400">
-                  Rant away, empty your emotional bucket. Zeniary won't try to
-                  fix you with unsolicited advice.
+                  Rant away, empty your emotional bucket. Zeniary won&apos;t try
+                  to fix you with unsolicited advice.
                 </p>
               </div>
             </div>

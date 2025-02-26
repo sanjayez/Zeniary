@@ -42,8 +42,8 @@ export default function index() {
               <div className="absolute bottom-8 left-4 z-1 max-w-64 md:max-w-80">
                 <h2 className="text-lg font-bold mb-2">Relive Experiences</h2>
                 <p className="text-sm md:text-base text-gray-400">
-                  Your experiences aren't just linear. Recall, Relive and Query
-                  the rich network your mind has built.
+                  Your experiences aren&apos;t just linear. Recall, Relive and
+                  Query the rich network your mind has built.
                 </p>
               </div>
             </div>

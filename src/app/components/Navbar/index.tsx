@@ -1,11 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Logo from "../common/Logo";
 
-const LinkComponent = (link: any) => {
+type NavLink = {
+  name: string;
+  href: string;
+};
+
+const LinkComponent = (link: NavLink) => {
   return (
     <Link
       href={link.href}
@@ -18,11 +21,10 @@ const LinkComponent = (link: any) => {
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   // Sample navigation links
   const links = [
-    { name: "Features", href: "/#features" },
+    { name: "Features", href: "/#features" } as NavLink,
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
   ];

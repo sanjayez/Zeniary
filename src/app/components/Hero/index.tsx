@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import greenHorizon from "@/public/green-horizon.webp";
 import HeroMask from "../common/HeroMask";
 import Email from "../common/Email";
 const index: React.FC = () => {
