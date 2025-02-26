@@ -1,11 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import { dawning } from "../../layout";
+
 const Privacy = () => {
   return (
     <div className="w-full bg-background md:min-h-96 md:flex md:flex-col md:items-center md:justify-center">
       <div className="w-24 h-24 mx-auto flex items-center justify-center">
-        {/* <MessageCircle className="w-8 h-8 text-emerald-500" /> */}
         <Image src="/Lock.svg" width={108} alt="chat-icon" height={108} />
       </div>
       <div className="w-full mx-auto max-w-7xl text-center">
@@ -13,7 +12,7 @@ const Privacy = () => {
           <div className="container mx-auto max-w-4xl text-center px-8 md:px-0">
             <h2 className="mb-6 text-white">
               <span
-                className={`${dawning.className} inline-block text-[36px] md:text-[48px] italic`}
+                className={`font-dawning inline-block text-[36px] md:text-[48px] italic`}
               >
                 Journal without fear
               </span>

@@ -3,6 +3,7 @@ import { Roboto, Dawning_of_a_New_Day } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
 const roboto = Roboto({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
@@ -11,6 +12,7 @@ const roboto = Roboto({
 export const dawning = Dawning_of_a_New_Day({
   weight: ["400"],
   subsets: ["latin"],
+  variable: "--font-dawning",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased text-white`}>
+      <body
+        className={`${roboto.className} ${dawning.variable} antialiased text-white`}
+      >
         <Navbar />
         {children}
         <Footer />

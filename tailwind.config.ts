@@ -24,6 +24,9 @@ export default {
         "hero-title-above-medium": "64px",
         "hero-title-small": "42px",
       },
+      fontFamily: {
+        dawning: ["var(--font-dawning)"],
+      },
     },
   },
   plugins: [],
