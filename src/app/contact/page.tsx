@@ -1,7 +1,6 @@
 "use client";
 
 import React, { FormEvent, useState } from "react";
-import Navbar from "../components/Navbar";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
