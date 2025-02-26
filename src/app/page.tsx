@@ -1,12 +1,19 @@
-import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-
+import Dashboard from "./components/Dashboard";
+import Privacy from "./components/Security/Privacy";
+import EarlyAccess from "./components/EarlyAccess";
+import Features from "./features/page";
 export default function Home() {
   return (
-    <>
-      <Navbar />
+    <div className="">
       <Hero />
-      <div className="h-screen w-full bg-blue-500"></div>
-    </>
+      {/* <GreenBlobSidekick /> */}
+      {/* <SidekickSection /> */}
+      <Features />
+      <Dashboard />
+      {/* <GreenBlobSidekick /> */}
+      <Privacy />
+      <EarlyAccess />
+    </div>
   );
 }

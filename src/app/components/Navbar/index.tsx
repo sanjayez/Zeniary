@@ -1,46 +1,45 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "../common/Logo";
+
+type NavLink = {
+  name: string;
+  href: string;
+};
+
+const LinkComponent = (link: NavLink) => {
+  return (
+    <Link
+      href={link.href}
+      className="text-white px-4 py-2 rounded-full transition-all hover:bg-[#50BA65]"
+    >
+      {link.name}
+    </Link>
+  );
+};
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Sample navigation links
   const links = [
-    { name: "Features", href: "/" },
-    { name: "Blog", href: "/about" },
-    { name: "Contact", href: "/services" },
+    { name: "Features", href: "/#features" } as NavLink,
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <nav className="w-full bg-[rgba(118, 118, 118, 0.2)] backdrop-blur-md shadow-md fixed top-0 left-0 z-50 font-[family-name:var(--font-roboto)]">
-      <div className="max-w-[1200px] mx-auto px-12">
-        <div className="flex items-center justify-between h-16">
+    <nav className="w-full bg-[rgba(118, 118, 118, 0.2)] backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+      <div className="md:max-w-[1200px] mx-auto px-12">
+        <div className="flex items-center justify-between h-20">
           {/* Logo on the left */}
-          <div className="flex items-center">
-            <Link href="/" className="pr-4">
-              <Image
-                src="/zeniary-logo.svg"
-                alt="Logo"
-                width={25}
-                height={35}
-                className="object-contain"
-              />
-            </Link>
-            <p className="text-white text-xl font-semibold">Zeniary</p>
-          </div>
+          <Logo />
 
           {/* Navigation links for desktop */}
           <div className="hidden md:flex md:w-1/3 justify-between">
             {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-white hover:text-gray-600 transition-colors"
-              >
-                {link.name}
-              </Link>
+              <LinkComponent key={link.name} {...link} />
             ))}
           </div>
 
@@ -86,7 +85,7 @@ export function Navbar() {
       {/* Mobile menu; shows the nav links on mobile devices */}
       {isOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/10 backdrop-blur-md h-screen flex flex-col justify-center items-center">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-black/10 backdrop-blur-md h-screen flex flex-col justify-center items-center">
             {links.map((link) => (
               <Link
                 key={link.name}
