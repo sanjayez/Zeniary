@@ -51,7 +51,7 @@ export default function index() {
             </div>
             <div className="w-1/2 h-full relative">
               <Image
-                src="/sample.png"
+                src="/iPhone-left.png"
                 alt="Sidekick"
                 width={1200}
                 height={900}
