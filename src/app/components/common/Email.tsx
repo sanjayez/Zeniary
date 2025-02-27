@@ -51,6 +51,7 @@ const Email = ({ className }: { className?: string }) => {
         setEmail("");
       }
     } catch (error) {
+      console.error("Something went wrong", error);
       toastError("Something went wrong. Please try again later.");
     } finally {
       setStatus("idle");
