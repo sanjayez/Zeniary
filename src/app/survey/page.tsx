@@ -3,27 +3,34 @@
 import React, { FormEvent, useState, useEffect } from "react";
 import { toastError, toastSuccess } from "@/utils/toast";
 import supabase from "@/utils/supabase";
-import { SurveyConfig } from "./surveyTypes";
+import {
+  SurveyConfig,
+  FormData,
+  FormErrors,
+  ConditionalFieldsState,
+  SurveySubmissionData,
+} from "./surveyTypes";
 import { journalingSurveyConfig } from "./surveyConfig";
 
 const SurveyPage = () => {
   const [surveyConfig, setSurveyConfig] = useState<SurveyConfig | null>(null);
-  const [formData, setFormData] = useState<Record<string, any>>({});
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showConditionalFields, setShowConditionalFields] = useState({
-    insights_elaboration: false,
-    insight_other: false,
-    integrations_comment: false,
-    price_other: false,
-  });
+  const [formData, setFormData] = useState<FormData>({});
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showConditionalFields, setShowConditionalFields] =
+    useState<ConditionalFieldsState>({
+      insights_elaboration: false,
+      insight_other: false,
+      integrations_comment: false,
+      price_other: false,
+    });
 
   useEffect(() => {
     // Use the journaling survey configuration
     setSurveyConfig(journalingSurveyConfig);
 
     // Initialize form data with empty values
-    const initialData: Record<string, any> = {};
+    const initialData: FormData = {};
     journalingSurveyConfig.fields.forEach((field) => {
       if (field.type === "checkbox") {
         initialData[field.id] = [];
@@ -39,16 +46,18 @@ const SurveyPage = () => {
     if (Object.keys(formData).length > 0) {
       setShowConditionalFields({
         insights_elaboration: formData.personalized_insights === "yes",
-        insight_other: (formData.insight_preferences || []).includes("other"),
+        insight_other:
+          Array.isArray(formData.insight_preferences) &&
+          formData.insight_preferences.includes("other"),
         integrations_comment: formData.integrations === "yes",
         price_other: formData.price_range === "other",
       });
     }
   }, [formData]);
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     let isValid = true;
-    const newErrors: Record<string, string> = {};
+    const newErrors: FormErrors = {};
 
     if (!surveyConfig) return false;
 
@@ -82,7 +91,7 @@ const SurveyPage = () => {
       // Email validation
       if (field.type === "email" && formData[field.id]) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData[field.id])) {
+        if (!emailRegex.test(formData[field.id] as string)) {
           newErrors[field.id] = "Please enter a valid email address";
           isValid = false;
         }
@@ -95,7 +104,7 @@ const SurveyPage = () => {
           isValid = false;
         } else if (formData[field.id]) {
           const priceValue = parseFloat(
-            formData[field.id].replace(/[^0-9.]/g, "")
+            (formData[field.id] as string).replace(/[^0-9.]/g, "")
           );
           if (isNaN(priceValue) || priceValue <= 0) {
             newErrors[field.id] = "Please enter a valid price";
@@ -109,35 +118,38 @@ const SurveyPage = () => {
     return isValid;
   };
 
-  const sanitizeFormData = () => {
-    const sanitized = { ...formData };
+  const sanitizeFormData = (): FormData => {
+    const sanitized: FormData = { ...formData };
 
     // Trim text inputs
     Object.keys(sanitized).forEach((key) => {
       if (typeof sanitized[key] === "string") {
-        sanitized[key] = sanitized[key].trim();
+        sanitized[key] = (sanitized[key] as string).trim();
       }
     });
 
     // Convert numeric strings to numbers where appropriate
     if (sanitized.privacy_importance) {
-      sanitized.privacy_importance = parseInt(sanitized.privacy_importance, 10);
+      sanitized.privacy_importance = parseInt(
+        sanitized.privacy_importance as string,
+        10
+      );
     }
 
     if (sanitized.adoption_likelihood) {
       sanitized.adoption_likelihood = parseInt(
-        sanitized.adoption_likelihood,
+        sanitized.adoption_likelihood as string,
         10
       );
     }
 
     if (sanitized.price_range && sanitized.price_range !== "other") {
-      sanitized.price_range = parseInt(sanitized.price_range, 10);
+      sanitized.price_range = parseInt(sanitized.price_range as string, 10);
     }
 
     if (sanitized.price_other) {
       const priceValue = parseFloat(
-        sanitized.price_other.replace(/[^0-9.]/g, "")
+        (sanitized.price_other as string).replace(/[^0-9.]/g, "")
       );
       if (!isNaN(priceValue)) {
         sanitized.price_other = priceValue;
@@ -147,7 +159,7 @@ const SurveyPage = () => {
     return sanitized;
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -162,9 +174,9 @@ const SurveyPage = () => {
       const sanitizedData = sanitizeFormData();
 
       // Add metadata
-      const submissionData = {
+      const submissionData: SurveySubmissionData = {
         ...sanitizedData,
-        survey_id: surveyConfig?.id,
+        survey_id: surveyConfig?.id || "",
         created_at: new Date().toISOString(),
         user_agent: navigator.userAgent,
         screen_size: `${window.innerWidth}x${window.innerHeight}`,
@@ -205,7 +217,7 @@ const SurveyPage = () => {
 
       // Reset form after successful submission
       if (surveyConfig) {
-        const initialData: Record<string, any> = {};
+        const initialData: FormData = {};
         surveyConfig.fields.forEach((field) => {
           if (field.type === "checkbox") {
             initialData[field.id] = [];
@@ -227,7 +239,7 @@ const SurveyPage = () => {
     }
   };
 
-  const handleChange = (fieldId: string, value: string | string[]) => {
+  const handleChange = (fieldId: string, value: string | string[]): void => {
     setFormData((prev) => ({
       ...prev,
       [fieldId]: value,
@@ -245,7 +257,7 @@ const SurveyPage = () => {
     fieldId: string,
     value: string,
     checked: boolean
-  ) => {
+  ): void => {
     const currentValues = [...((formData[fieldId] as string[]) || [])];
 
     if (checked) {
@@ -263,7 +275,7 @@ const SurveyPage = () => {
   };
 
   // Determine if a field should be shown based on conditional logic
-  const shouldShowField = (fieldId: string) => {
+  const shouldShowField = (fieldId: string): boolean => {
     switch (fieldId) {
       case "insights_elaboration":
         return showConditionalFields.insights_elaboration;

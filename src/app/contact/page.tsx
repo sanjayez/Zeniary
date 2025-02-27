@@ -3,25 +3,30 @@
 import React, { FormEvent, useState } from "react";
 import { toastError, toastSuccess } from "@/utils/toast";
 import supabase from "@/utils/supabase";
+import {
+  ContactFormData,
+  ContactFormErrors,
+  ContactSubmissionData,
+} from "./types";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     company: "",
     message: "",
   });
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<ContactFormErrors>({
     name: "",
     email: "",
     company: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     let isValid = true;
-    const newErrors = {
+    const newErrors: ContactFormErrors = {
       name: "",
       email: "",
       company: "",
@@ -54,7 +59,7 @@ const Contact = () => {
     return isValid;
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -66,7 +71,7 @@ const Contact = () => {
 
     try {
       // Prepare data for submission
-      const submissionData = {
+      const submissionData: ContactSubmissionData = {
         ...formData,
         created_at: new Date().toISOString(),
         status: "new", // Initial status for the query
@@ -119,13 +124,13 @@ const Contact = () => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  ): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    if (errors[name as keyof typeof errors]) {
+    if (errors[name as keyof ContactFormErrors]) {
       setErrors((prev) => ({
         ...prev,
         [name]: "",

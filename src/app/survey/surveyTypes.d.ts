@@ -5,8 +5,7 @@ export type FieldType =
   | "textarea"
   | "select"
   | "radio"
-  | "checkbox"
-  | "range";
+  | "checkbox";
 
 export interface FieldOption {
   label: string;
@@ -20,9 +19,6 @@ export interface SurveyField {
   required: boolean;
   placeholder?: string;
   options?: FieldOption[];
-  min?: number;
-  max?: number;
-  step?: number;
 }
 
 export interface SurveyConfig {
@@ -30,4 +26,27 @@ export interface SurveyConfig {
   title: string;
   description: string;
   fields: SurveyField[];
+}
+
+// Form state types
+export interface FormErrors {
+  [key: string]: string;
+}
+
+export interface FormData {
+  [key: string]: string | string[] | number | boolean;
+}
+
+export interface ConditionalFieldsState {
+  insights_elaboration: boolean;
+  insight_other: boolean;
+  integrations_comment: boolean;
+  price_other: boolean;
+}
+
+export interface SurveySubmissionData extends FormData {
+  survey_id: string;
+  created_at: string;
+  user_agent: string;
+  screen_size: string;
 }
