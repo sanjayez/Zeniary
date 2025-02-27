@@ -1,23 +1,97 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import classNames from "classnames";
+import supabase from "@/utils/supabase";
+import { toastError, toastSuccess, toastWarning } from "@/utils/toast";
+
+type EmailStatus = "idle" | "loading" | "success" | "error";
 
 const Email = ({ className }: { className?: string }) => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<EmailStatus>("idle");
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const sanitizeEmail = (email: string): string => {
+    return email.trim().toLowerCase();
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    const sanitizedEmail = sanitizeEmail(email);
+
+    if (!validateEmail(sanitizedEmail)) {
+      setStatus("idle");
+      toastError("Please enter a valid email address");
+      return;
+    }
+
+    try {
+      const { error } = await supabase.from("waitlist").insert([
+        {
+          email: sanitizedEmail,
+          created_at: new Date().toISOString(),
+        },
+      ]);
+
+      if (error) {
+        if (error.code === "23505") {
+          toastWarning("This email is already on the waitlist");
+        } else {
+          throw error;
+        }
+      } else {
+        toastSuccess("Thanks! You are on the waitlist.");
+        setEmail("");
+      }
+    } catch (error) {
+      console.error("Something went wrong", error);
+      toastError("Something went wrong. Please try again later.");
+    } finally {
+      setStatus("idle");
+    }
+  };
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className={classNames(
-        "flex flex-col md:flex-row gap-4 items-center w-full justify-center px-8 md:px-0",
+        "flex flex-col md:flex-row gap-4 items-center w-full justify-center px-8 md:px-0 relative",
         className
       )}
     >
       <input
         type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter your email"
-        className="w-full max-w-lg md:max-w-md px-6 py-3 rounded bg-white/5 text-white placeholder-white/60 focus:outline-none"
+        disabled={status === "loading"}
+        className={classNames(
+          "w-full max-w-lg md:max-w-md px-6 py-3 rounded",
+          "bg-white/5 text-white placeholder-white/60 focus:outline-none",
+          "disabled:opacity-50 disabled:cursor-not-allowed"
+        )}
       />
-      <button className="px-4 py-1 md:px-8 md:py-2 bg-white text-[#0A0A0A] rounded font-medium text-lg hover:bg-white/95 transition-colors">
-        Join Waitlist
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className={classNames(
+          "px-4 py-1 md:px-8 md:py-2 rounded font-medium text-lg",
+          "transition-colors",
+          status === "loading"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-white text-[#0A0A0A] hover:bg-white/95"
+        )}
+      >
+        {status === "loading" ? "Joining..." : "Join Waitlist"}
       </button>
-    </div>
+    </form>
   );
 };
 

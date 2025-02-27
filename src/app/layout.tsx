@@ -3,6 +3,8 @@ import { Roboto, Dawning_of_a_New_Day } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -30,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${roboto.className} ${dawning.variable} antialiased text-white`}
       >
+        <ToastContainer />
         <Navbar />
         {children}
         <Footer />
