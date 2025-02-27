@@ -24,8 +24,10 @@ export function Navbar() {
 
   // Sample navigation links
   const links = [
+    { name: "Home", href: "/" } as NavLink,
     { name: "Features", href: "/#features" } as NavLink,
-    { name: "Blog", href: "/blog" },
+    // { name: "Blog", href: "/blog" },
+    { name: "Survey", href: "/survey" },
     { name: "Contact", href: "/contact" },
   ];
 

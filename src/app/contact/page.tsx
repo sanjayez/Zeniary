@@ -1,6 +1,8 @@
 "use client";
 
 import React, { FormEvent, useState } from "react";
+import { toastError, toastSuccess } from "@/utils/toast";
+import supabase from "@/utils/supabase";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const Contact = () => {
     company: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     let isValid = true;
@@ -51,11 +54,66 @@ const Contact = () => {
     return isValid;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Form submitted:", formData);
-      setFormData({ name: "", email: "", company: "", message: "" });
+
+    if (!validateForm()) {
+      toastError("Please fix the errors in the form before submitting");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for submission
+      const submissionData = {
+        ...formData,
+        created_at: new Date().toISOString(),
+        status: "new", // Initial status for the query
+        user_agent: navigator.userAgent,
+        screen_size: `${window.innerWidth}x${window.innerHeight}`,
+      };
+
+      // Submit to Supabase "userqueries" table
+      const { error } = await supabase
+        .from("userqueries")
+        .insert([submissionData]);
+
+      if (error) {
+        console.error("Supabase error:", error);
+
+        // Handle specific error cases
+        if (error.code === "23505") {
+          // Unique constraint violation
+          toastError("A query with this email is already being processed.");
+        } else if (error.code === "23502") {
+          // Not null violation
+          toastError("Please fill in all required fields.");
+        } else {
+          // Generic error message
+          toastError(`Error submitting form: ${error.message}`);
+        }
+
+        throw new Error(error.message || "Error submitting contact form");
+      }
+
+      // Success message
+      toastSuccess(
+        "Thank you for your message! We'll get back to you as soon as possible."
+      );
+
+      // Reset form after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toastError("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -126,6 +184,7 @@ const Contact = () => {
                     <div>
                       <label className="block text-sm text-gray-400 mb-1.5 md:mb-2">
                         Full name
+                        <span className="text-red-500 ml-1">*</span>
                       </label>
                       <input
                         type="text"
@@ -134,10 +193,16 @@ const Contact = () => {
                         onChange={handleChange}
                         className="w-full bg-[#1A1D1C]/80 border border-gray-800 rounded-lg px-3 py-2.5 md:px-4 md:py-3 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-gray-600"
                       />
+                      {errors.name && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm text-gray-400 mb-1.5 md:mb-2">
                         Email Address
+                        <span className="text-red-500 ml-1">*</span>
                       </label>
                       <input
                         type="email"
@@ -146,6 +211,11 @@ const Contact = () => {
                         onChange={handleChange}
                         className="w-full bg-[#1A1D1C]/80 border border-gray-800 rounded-lg px-3 py-2.5 md:px-4 md:py-3 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-gray-600"
                       />
+                      {errors.email && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm text-gray-400 mb-1.5 md:mb-2">
@@ -162,6 +232,7 @@ const Contact = () => {
                     <div>
                       <label className="block text-sm text-gray-400 mb-1.5 md:mb-2">
                         Message
+                        <span className="text-red-500 ml-1">*</span>
                       </label>
                       <textarea
                         rows={4}
@@ -170,12 +241,18 @@ const Contact = () => {
                         onChange={handleChange}
                         className="w-full bg-[#1A1D1C]/80 border border-gray-800 rounded-lg px-3 py-2.5 md:px-4 md:py-3 text-sm md:text-base text-white placeholder-gray-500 focus:outline-none focus:border-gray-600 resize-none"
                       />
+                      {errors.message && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.message}
+                        </p>
+                      )}
                     </div>
                     <button
                       type="submit"
-                      className="w-auto px-5 py-2.5 md:px-6 md:py-3 bg-[#1A1D1C]/80 text-white text-sm md:text-base rounded-lg border border-gray-800 hover:bg-[#242827] transition-colors"
+                      disabled={isSubmitting}
+                      className="w-auto px-5 py-2.5 md:px-6 md:py-3 bg-[#1A1D1C]/80 text-white text-sm md:text-base rounded-lg border border-gray-800 hover:bg-[#242827] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Submit
+                      {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
                   </form>
                 </div>
