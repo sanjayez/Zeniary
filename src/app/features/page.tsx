@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import GreenBlobSidekick from "../components/common/GreenBlobSidekick";
 import Divider from "../components/common/Divider";
@@ -8,10 +8,7 @@ import CardDetail from "../components/common/CardDetail";
 import { motion, useInView } from "framer-motion";
 
 const page = () => {
-  const leftPhoneRef = useRef<HTMLImageElement>(null);
-  const rightPhoneRef = useRef<HTMLImageElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
   // Add these variant definitions
@@ -61,13 +58,6 @@ const page = () => {
       },
     },
   };
-
-  useEffect(() => {
-    if (leftPhoneRef.current && videoRef.current) {
-      console.log(leftPhoneRef.current);
-      console.log(videoRef.current);
-    }
-  }, []);
 
   return (
     <div
