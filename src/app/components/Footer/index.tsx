@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "../common/Logo";
+import { links } from "../Navbar/constants";
 
 export default function Footer() {
   return (
@@ -16,24 +17,15 @@ export default function Footer() {
 
         {/* Right side navigation */}
         <nav className="space-y-4">
-          <Link
-            href="/#features"
-            className="block hover:text-white transition-colors text-sm lg:text-base text-gray-400"
-          >
-            Features
-          </Link>
-          <Link
-            href="/blog"
-            className="block hover:text-white transition-colors text-sm lg:text-base text-gray-400"
-          >
-            Blog
-          </Link>
-          <Link
-            href="/contact"
-            className="block hover:text-white transition-colors text-sm lg:text-base text-gray-400"
-          >
-            Contact
-          </Link>
+          {links.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="block hover:text-white transition-colors text-sm lg:text-base text-gray-400"
+            >
+              {link.name}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

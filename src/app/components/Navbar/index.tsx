@@ -4,6 +4,7 @@ import Link from "next/link";
 import Logo from "../common/Logo";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
+import { links } from "./constants";
 
 type NavLink = {
   name: string;
@@ -23,15 +24,6 @@ const LinkComponent = (link: NavLink) => {
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
-  // Sample navigation links
-  const links = [
-    { name: "Home", href: "/" } as NavLink,
-    { name: "Features", href: "/#features" } as NavLink,
-    // { name: "Blog", href: "/blog" },
-    { name: "Survey", href: "/survey" },
-    { name: "Contact", href: "/contact" },
-  ];
 
   return (
     <nav className="w-full bg-[rgba(118, 118, 118, 0.2)] backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
@@ -97,7 +89,7 @@ export function Navbar() {
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="px-2 pt-2 pb-3 space-y-1 bg-black/10 backdrop-blur-md h-screen flex flex-col justify-center items-center"
+              className="px-2 pt-2 pb-3 space-y-1 bg-black/40 backdrop-blur-md h-screen flex flex-col justify-center items-center"
               initial={{ y: -20 }}
               animate={{ y: 0 }}
               exit={{ y: -20 }}
