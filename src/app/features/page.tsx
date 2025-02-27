@@ -7,7 +7,7 @@ import Divider from "../components/common/Divider";
 import CardDetail from "../components/common/CardDetail";
 import { motion, useInView } from "framer-motion";
 
-const page = () => {
+const Page = () => {
   const sectionRef = UseRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
@@ -189,4 +189,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
