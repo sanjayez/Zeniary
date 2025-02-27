@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Logo from "../common/Logo";
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 type NavLink = {
   name: string;
@@ -24,8 +26,10 @@ export function Navbar() {
 
   // Sample navigation links
   const links = [
+    { name: "Home", href: "/" } as NavLink,
     { name: "Features", href: "/#features" } as NavLink,
-    { name: "Blog", href: "/blog" },
+    // { name: "Blog", href: "/blog" },
+    { name: "Survey", href: "/survey" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -83,21 +87,43 @@ export function Navbar() {
       </div>
 
       {/* Mobile menu; shows the nav links on mobile devices */}
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-black/10 backdrop-blur-md h-screen flex flex-col justify-center items-center">
-            {links.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-200 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              className="px-2 pt-2 pb-3 space-y-1 bg-black/10 backdrop-blur-md h-screen flex flex-col justify-center items-center"
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              exit={{ y: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              {links.map((link) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-200 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

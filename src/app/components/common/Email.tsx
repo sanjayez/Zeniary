@@ -1,14 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import classNames from "classnames";
 import supabase from "@/utils/supabase";
 import { toastError, toastSuccess, toastWarning } from "@/utils/toast";
 
 type EmailStatus = "idle" | "loading" | "success" | "error";
 
-const Email = ({ className }: { className?: string }) => {
-  const [email, setEmail] = useState("");
+interface EmailProps {
+  className?: string;
+}
+
+interface WaitlistEntry {
+  email: string;
+  created_at: string;
+}
+
+const Email: React.FC<EmailProps> = ({ className }) => {
+  const [email, setEmail] = useState<string>("");
   const [status, setStatus] = useState<EmailStatus>("idle");
 
   const validateEmail = (email: string): boolean => {
@@ -20,7 +29,7 @@ const Email = ({ className }: { className?: string }) => {
     return email.trim().toLowerCase();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setStatus("loading");
 
@@ -33,7 +42,7 @@ const Email = ({ className }: { className?: string }) => {
     }
 
     try {
-      const { error } = await supabase.from("waitlist").insert([
+      const { error } = await supabase.from("waitlist").insert<WaitlistEntry>([
         {
           email: sanitizedEmail,
           created_at: new Date().toISOString(),
