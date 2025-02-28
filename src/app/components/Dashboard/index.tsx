@@ -7,10 +7,11 @@ import JourneyTracker from "./JourneyTracker";
 import Insights from "./Insights";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import CardDetail from "../common/CardDetail";
 
 export default function index() {
   return (
-    <main className="min-h-screen md:min-h-full bg-background text-white p-8 mb-24 cursor-default">
+    <main className="min-h-screen md:min-h-full bg-background text-white p-8 mb-80 cursor-default">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -39,12 +40,13 @@ export default function index() {
               <div className="h-full min-h-[300px] w-full relative">
                 <ExplorerGraph />
               </div>
-              <div className="absolute bottom-8 left-4 z-1 max-w-64 md:max-w-80">
-                <h2 className="text-lg font-bold mb-2">Relive Experiences</h2>
-                <p className="text-sm md:text-base text-gray-400">
-                  Your experiences aren&apos;t just linear. Recall, Relive and
-                  Query the rich network your mind has built.
-                </p>
+              <div className="absolute bottom-8 left-4 z-1">
+                <CardDetail
+                  title="Relive Experiences"
+                  description="Your experiences aren't just linear. Recall, Relive and Query the rich network your mind has built."
+                  noMarginBottom
+                  className="text-left"
+                />
               </div>
             </div>
           </Card>
@@ -59,12 +61,9 @@ export default function index() {
           </Card>
 
           <Card className="bg-[#040E09] border-gray-800 row-span-2 cursor-default">
-            <div className="p-4 h-full flex flex-col min-h-[300px]">
-              <h2 className="text-lg font-medium mb-2">
-                Insights and weekly life reviews
-              </h2>
+            <div className="p-4 h-full flex flex-col min-h-[300px] relative">
               <motion.div
-                className="flex-1 flex items-center justify-center relative min-h-[300px]"
+                className="flex-1 flex items-center justify-center relative min-h-[300px] mt-20 md:mt-0"
                 initial="initial"
                 whileHover="hover"
               >
@@ -89,6 +88,14 @@ export default function index() {
                   <Insights isPositive={false} value={17} label="Stress" />
                 </motion.div>
               </motion.div>
+              <div className="absolute top-6 left-4 z-1">
+                <CardDetail
+                  title="Insights and weekly life reviews"
+                  description="Get actionable insights. It's like a personal life coach that helps you grow, one week at a time."
+                  noMarginBottom
+                  className="text-left"
+                />
+              </div>
             </div>
           </Card>
 
