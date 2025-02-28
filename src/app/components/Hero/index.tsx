@@ -6,7 +6,7 @@ import Email from "../common/Email";
 import { motion } from "framer-motion";
 
 function FloatingPaths({ position }: { position: number }) {
-  const paths = Array.from({ length: 12 }, (_, i) => ({
+  const paths = Array.from({ length: 36 }, (_, i) => ({
     id: i,
     d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
       380 - i * 5 * position
