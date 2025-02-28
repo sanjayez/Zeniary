@@ -35,12 +35,6 @@ const Email: React.FC<EmailProps> = ({ className, location = "unknown" }) => {
     e.preventDefault();
     setStatus("loading");
 
-    // Track Email CTA Click event with location information
-    posthog.capture("Email CTA Click", {
-      location: location,
-      page_path: window.location.pathname,
-    });
-
     const sanitizedEmail = sanitizeEmail(email);
 
     if (!validateEmail(sanitizedEmail)) {
@@ -60,10 +54,19 @@ const Email: React.FC<EmailProps> = ({ className, location = "unknown" }) => {
       if (error) {
         if (error.code === "23505") {
           toastWarning("This email is already on the waitlist");
+          // Don't track as a new submission if the email is already on the waitlist
         } else {
           throw error;
         }
       } else {
+        // Only track successful email submissions
+        posthog.capture("Email CTA Click", {
+          location: location,
+          page_path: window.location.pathname,
+          email_domain: sanitizedEmail.split("@")[1], // Track email domain for analytics
+          status: "success",
+        });
+
         toastSuccess("Thanks! You are on the waitlist.");
         setEmail("");
       }

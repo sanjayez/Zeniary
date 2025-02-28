@@ -224,10 +224,11 @@ const SurveyPage = () => {
         throw new Error(error.message || "Error submitting survey");
       }
 
-      // Track survey submission
+      // Track survey submission only after successful submission
       posthog.capture("Survey Submission", {
         survey_id: surveyConfig?.id || "",
         survey_name: surveyConfig?.title || "",
+        status: "success",
       });
 
       // Success message
