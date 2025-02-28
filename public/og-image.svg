@@ -1,0 +1,37 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <rect width="1200" height="630" fill="url(#paint0_linear)" />
+  
+  <!-- Decorative elements -->
+  <circle cx="200" cy="150" r="80" fill="#4CAF50" fill-opacity="0.2" />
+  <circle cx="1000" cy="500" r="100" fill="#4CAF50" fill-opacity="0.2" />
+  
+  <!-- Logo and text container -->
+  <g filter="url(#drop_shadow)">
+    <!-- Title -->
+    <text x="600" y="250" font-family="Arial, sans-serif" font-weight="bold" font-size="72" text-anchor="middle" fill="white">Zeniary</text>
+    
+    <!-- Tagline -->
+    <text x="600" y="320" font-family="Arial, sans-serif" font-weight="normal" font-size="36" text-anchor="middle" fill="white">The Chatty Empathetic Sidekick</text>
+    
+    <!-- Description -->
+    <text x="600" y="400" font-family="Arial, sans-serif" font-weight="normal" font-size="24" text-anchor="middle" fill="#E0E0E0">
+      <tspan x="600" dy="0">Privacy-First Journaling App with</tspan>
+      <tspan x="600" dy="36">Personalized AI Insights</tspan>
+    </text>
+  </g>
+  
+  <!-- Definitions -->
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1A1A1A" />
+      <stop offset="1" stop-color="#333333" />
+    </linearGradient>
+    
+    <!-- Drop shadow for text -->
+    <filter id="drop_shadow" x="-50" y="-50" width="1300" height="730" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.3" />
+    </filter>
+  </defs>
+</svg> 
