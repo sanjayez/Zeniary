@@ -197,9 +197,7 @@ const SurveyPage = () => {
       };
 
       // Submit to Supabase "surveys" table
-      const { error, data } = await supabase
-        .from("surveys")
-        .insert([submissionData]);
+      const { error } = await supabase.from("surveys").insert([submissionData]);
 
       if (error) {
         console.error("Supabase error:", error);

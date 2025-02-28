@@ -7,7 +7,6 @@ import EarlyAccess from "./components/EarlyAccess";
 import Features from "./features/page";
 import { useScrollDepthTracking } from "@/hooks/useScrollDepthTracking";
 import { useSectionTimeTracking } from "@/hooks/useSectionTimeTracking";
-import { useRef } from "react";
 
 export default function Home() {
   // Use custom thresholds for the homepage
