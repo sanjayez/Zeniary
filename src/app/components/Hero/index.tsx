@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeroMask from "../common/HeroMask";
 import Email from "../common/Email";
 import { motion } from "framer-motion";
@@ -51,17 +51,24 @@ function FloatingPaths({ position }: { position: number }) {
   );
 }
 
-const index: React.FC = () => {
+const Hero: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    // bg-heroBannerImgWithoutGlow bg-no-repeat bg-cover bg-center -> old bg
     <section className="w-full h-screen flex flex-col justify-center items-center text-center px-4 relative">
-      <FloatingPaths position={1} />
-      <FloatingPaths position={-1} />
+      {isClient && (
+        <>
+          <FloatingPaths position={1} />
+          <FloatingPaths position={-1} />
+        </>
+      )}
 
-      {/* Gradient Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-[50vh] bg-gradient-to-t from-black/100 to-transparent " />
+      <div className="absolute bottom-0 left-0 right-0 h-[50vh] bg-gradient-to-t from-black/100 to-transparent" />
 
-      {/* Hero Text */}
       <div className="flex flex-col justify-center items-center -mt-[33vh] relative z-[2]">
         <h1 className="font-bold text-hero-title-small md:text-hero-title-above-medium bg-gradient-to-r from-white to-[#999999] text-transparent bg-clip-text leading-normal">
           Document Your Journey
@@ -74,4 +81,4 @@ const index: React.FC = () => {
   );
 };
 
-export default index;
+export default Hero;

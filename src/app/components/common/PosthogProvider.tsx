@@ -31,51 +31,63 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
   const [isPostHogLoaded, setIsPostHogLoaded] = useState(false);
 
   useEffect(() => {
-    // Defer PostHog initialization to improve initial page load
+    // Only load PostHog after the page has fully loaded
     const loadPostHog = () => {
+      // Check if we should initialize PostHog (don't initialize in development)
+      if (process.env.NODE_ENV === "development") {
+        console.log("PostHog disabled in development");
+        return;
+      }
+
       posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
         api_host:
           process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
-        person_profiles: "always", // or 'always' to create profiles for anonymous users as well
-        capture_pageview: false, // Disable automatic pageview capture, as we capture manually
+        person_profiles: "always",
+        capture_pageview: false, // Disable automatic pageview capture
         loaded: () => {
           setIsPostHogLoaded(true);
         },
         autocapture: {
-          // Disable elements that might impact performance
-          element_allowlist: [
-            "a",
-            "button",
-            "form",
-            "input",
-            "select",
-            "textarea",
-            "label",
-          ],
+          // Limit element capturing to essential elements
+          element_allowlist: ["a", "button", "form"],
         },
-        // Use supported configuration options only
+        // Disable features that aren't critical
         capture_performance: true,
         bootstrap: {
           distinctID: localStorage.getItem("ph_distinctid") || undefined,
         },
+        // Reduce network requests
+        request_batching: true,
       });
     };
 
-    // Use requestIdleCallback or setTimeout to defer loading
+    // Use a more aggressive deferral strategy
     if (typeof window !== "undefined") {
-      if ("requestIdleCallback" in window) {
-        // Use type assertion for requestIdleCallback
-        (window as unknown as Window).requestIdleCallback(loadPostHog);
+      // Option 1: Load after page is fully loaded
+      if (document.readyState === "complete") {
+        setTimeout(loadPostHog, 2000); // Delay by 2 seconds after load
       } else {
-        setTimeout(loadPostHog, 1000);
+        window.addEventListener("load", () => {
+          // Use requestIdleCallback with a longer timeout if available
+          if ("requestIdleCallback" in window) {
+            (window as unknown as Window).requestIdleCallback(loadPostHog, {
+              timeout: 4000,
+            });
+          } else {
+            // Fallback to setTimeout with a longer delay
+            setTimeout(loadPostHog, 3000);
+          }
+        });
       }
     }
 
     return () => {
       // Cleanup if needed
+      window.removeEventListener("load", loadPostHog);
     };
   }, []);
 
+  // Only render the page view tracker if PostHog is loaded
   return (
     <PHProvider client={posthog}>
       {isPostHogLoaded && <SuspendedPostHogPageView />}
@@ -97,7 +109,10 @@ function PostHogPageView() {
         url = url + "?" + searchParams.toString();
       }
 
-      posthog.capture("$pageview", { $current_url: url });
+      // Delay pageview capture slightly to prioritize rendering
+      setTimeout(() => {
+        posthog.capture("$pageview", { $current_url: url });
+      }, 300);
     }
   }, [pathname, searchParams, posthog]);
 
