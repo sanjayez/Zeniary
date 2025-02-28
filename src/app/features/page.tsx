@@ -84,12 +84,12 @@ const Page = () => {
         {/* Modes Container */}
         <div className="bg-gradient-to-b from-black/40 to-black/5 backdrop-blur-sm rounded-3xl p-8 border-x border-t border-b border-emerald-900/30 border-b-transparent min-h-[600px]">
           <div
-            className="flex flex-col-reverse md:flex-row h-full"
+            className="flex flex-col-reverse md:flex-row h-full min-h-full flex-1"
             ref={sectionRef}
           >
             {/* Text Container */}
             <motion.div
-              className="flex flex-col w-full md:w-1/3 justify-center z-10 mt-16 md:mt-0"
+              className="flex flex-col w-full md:w-1/3 justify-center z-10 mt-16 md:mt-24 h-full"
               variants={textContainerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
@@ -120,7 +120,7 @@ const Page = () => {
               <motion.div variants={textItemVariants}>
                 <CardDetail
                   title="A true friend"
-                  description="You may be feeling off and don't know what to say. We'll get the juices flowing with our chat templates."
+                  description="Unsure what to say? Our chat templates will help you like a caring buddy who's always there."
                 />
               </motion.div>
             </motion.div>

@@ -32,3 +32,23 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.05);
 }
+
+@layer utilities {
+  .card-wrapper {
+    @apply relative overflow-hidden;
+  }
+
+  .card-wrapper::before {
+    background: conic-gradient(
+      black 0deg,
+      #5aba47 0deg,
+      transparent 80deg
+    );
+    @apply absolute h-[175%] w-[175%] left-[-37%] top-[-37%] content-[''] animate-border-spin;
+  }
+
+  .card-content {
+    @apply bg-zinc-950 absolute h-[calc(100%-2px)] w-[calc(100%-2px)] top-[1px] rounded-3xl;
+  }
+}
+
