@@ -4,6 +4,7 @@ import React, { useState, FormEvent } from "react";
 import classNames from "classnames";
 import supabase from "@/utils/supabase";
 import { toastError, toastSuccess, toastWarning } from "@/utils/toast";
+import posthog from "posthog-js";
 
 type EmailStatus = "idle" | "loading" | "success" | "error";
 
@@ -32,6 +33,11 @@ const Email: React.FC<EmailProps> = ({ className }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setStatus("loading");
+
+    // Track Email CTA Click event
+    posthog.capture("Email CTA Click", {
+      location: window.location.pathname,
+    });
 
     const sanitizedEmail = sanitizeEmail(email);
 

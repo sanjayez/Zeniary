@@ -6,6 +6,8 @@ import Privacy from "./components/Security/Privacy";
 import EarlyAccess from "./components/EarlyAccess";
 import Features from "./features/page";
 import { useScrollDepthTracking } from "@/hooks/useScrollDepthTracking";
+import { useSectionTimeTracking } from "@/hooks/useSectionTimeTracking";
+import { useRef } from "react";
 
 export default function Home() {
   // Use custom thresholds for the homepage
@@ -14,14 +16,33 @@ export default function Home() {
     pageIdentifier: "homepage",
   });
 
+  // Create refs for each section to track time spent
+  const heroSectionRef = useSectionTimeTracking({ sectionId: "hero" });
+  const featuresSectionRef = useSectionTimeTracking({ sectionId: "features" });
+  const dashboardSectionRef = useSectionTimeTracking({
+    sectionId: "dashboard",
+  });
+  const privacySectionRef = useSectionTimeTracking({ sectionId: "privacy" });
+  const earlySectionRef = useSectionTimeTracking({ sectionId: "early-access" });
+
   return (
     <>
-      <Hero />
-      <Features />
-      <Dashboard />
+      <section ref={heroSectionRef}>
+        <Hero />
+      </section>
+      <section ref={featuresSectionRef}>
+        <Features />
+      </section>
+      <section ref={dashboardSectionRef}>
+        <Dashboard />
+      </section>
       {/* <GreenBlobSidekick /> */}
-      <Privacy />
-      <EarlyAccess />
+      <section ref={privacySectionRef}>
+        <Privacy />
+      </section>
+      <section ref={earlySectionRef}>
+        <EarlyAccess />
+      </section>
     </>
   );
 }

@@ -17,6 +17,7 @@ export const useScrollDepthTracking = ({
 }: ScrollDepthOptions = {}) => {
   const [maxScrollDepth, setMaxScrollDepth] = useState<number>(0);
   const [trackedThresholds, setTrackedThresholds] = useState<number[]>([]);
+  const [reachedBottom, setReachedBottom] = useState<boolean>(false);
 
   useEffect(() => {
     let throttleTimeout: NodeJS.Timeout | null = null;
@@ -73,6 +74,15 @@ export const useScrollDepthTracking = ({
 
               // Add to tracked thresholds
               setTrackedThresholds((prev) => [...prev, threshold]);
+
+              // If we've reached 100%, track the "Reached Bottom" event
+              if (threshold === 100 && !reachedBottom) {
+                posthog.capture("Reached Bottom", {
+                  page: pageIdentifier,
+                  url: window.location.href,
+                });
+                setReachedBottom(true);
+              }
             }
           });
         }
@@ -84,9 +94,22 @@ export const useScrollDepthTracking = ({
     // Add scroll event listener
     window.addEventListener("scroll", handleScroll, { passive: true });
 
+    // Track final scroll depth when user leaves the page
+    const handleBeforeUnload = () => {
+      const finalScrollDepth = calculateScrollDepth();
+      posthog.capture("Final Scroll Depth", {
+        depth_percentage: finalScrollDepth,
+        page: pageIdentifier,
+        url: window.location.href,
+      });
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     // Cleanup
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
       if (throttleTimeout) {
         clearTimeout(throttleTimeout);
       }
@@ -97,7 +120,8 @@ export const useScrollDepthTracking = ({
     thresholds,
     throttleWait,
     pageIdentifier,
+    reachedBottom,
   ]);
 
-  return { maxScrollDepth, trackedThresholds };
+  return { maxScrollDepth, trackedThresholds, reachedBottom };
 };

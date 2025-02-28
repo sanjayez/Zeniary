@@ -12,6 +12,7 @@ import {
 } from "./surveyTypes";
 import { journalingSurveyConfig } from "./surveyConfig";
 import { useScrollDepthTracking } from "@/hooks/useScrollDepthTracking";
+import posthog from "posthog-js";
 
 const SurveyPage = () => {
   const [surveyConfig, setSurveyConfig] = useState<SurveyConfig | null>(null);
@@ -40,6 +41,12 @@ const SurveyPage = () => {
       }
     });
     setFormData(initialData);
+
+    // Track survey page entry
+    posthog.capture("Survey Page Enter", {
+      survey_id: journalingSurveyConfig.id,
+      survey_name: journalingSurveyConfig.title,
+    });
   }, []);
 
   // Update conditional field visibility when form data changes
@@ -217,6 +224,12 @@ const SurveyPage = () => {
         throw new Error(error.message || "Error submitting survey");
       }
 
+      // Track survey submission
+      posthog.capture("Survey Submission", {
+        survey_id: surveyConfig?.id || "",
+        survey_name: surveyConfig?.title || "",
+      });
+
       // Success message
       toastSuccess(
         "Thank you for completing the survey! Your feedback is valuable to us."
@@ -233,14 +246,10 @@ const SurveyPage = () => {
           }
         });
         setFormData(initialData);
+        setErrors({});
       }
-
-      // Optional: Log success for debugging
-      console.log("Survey submitted successfully:", data);
     } catch (error) {
-      // This catch block handles any errors not caught by the Supabase error handling above
       console.error("Error submitting survey:", error);
-      toastError("Something went wrong. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
