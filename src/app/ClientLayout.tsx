@@ -1,9 +1,11 @@
 "use client";
 
+import React from "react";
 import { usePathname } from "next/navigation";
 import { useScrollDepthTracking } from "@/hooks/useScrollDepthTracking";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PerformanceOptimizer from "./components/common/PerformanceOptimizer";
 
 export default function ClientLayout({
   children,
@@ -19,6 +21,7 @@ export default function ClientLayout({
 
   return (
     <>
+      <PerformanceOptimizer />
       <Navbar />
       {children}
       <Footer />

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto, Dawning_of_a_New_Day } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
@@ -20,6 +20,12 @@ const dawning = Dawning_of_a_New_Day({
 export const metadata: Metadata = {
   title: "Zeniary - Your Thoughts, Smarter",
   description: "Zeniary - Your Thoughts, Smarter",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
