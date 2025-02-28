@@ -17,7 +17,7 @@ const Privacy = () => {
                 Journal without fear
               </span>
               <span className="ml-2 font-light text-xl md:text-2xl">
-                &mdash; We Keep The Snoops Out
+                &mdash; We Keep The Snoops Out 🤫
               </span>
             </h2>
 
