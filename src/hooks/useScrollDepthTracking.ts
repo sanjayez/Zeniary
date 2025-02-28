@@ -20,7 +20,6 @@ export const useScrollDepthTracking = ({
 
   useEffect(() => {
     let throttleTimeout: NodeJS.Timeout | null = null;
-    let lastScrollY = 0;
 
     const calculateScrollDepth = () => {
       // Calculate total document height
@@ -78,7 +77,6 @@ export const useScrollDepthTracking = ({
           });
         }
 
-        lastScrollY = window.scrollY;
         throttleTimeout = null;
       }, throttleWait);
     };
