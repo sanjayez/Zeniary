@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Roboto, Dawning_of_a_New_Day } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { PostHogProvider } from "./components/common/PosthogProvider";
+import ClientLayout from "./ClientLayout";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -36,9 +36,9 @@ export default function RootLayout({
           className="!max-w-[calc(100%-2rem)] !left-[50%] !-translate-x-1/2"
           position="top-center"
         />
-        <Navbar />
-        {children}
-        <Footer />
+        <PostHogProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </PostHogProvider>
       </body>
     </html>
   );

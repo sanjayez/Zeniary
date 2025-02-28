@@ -93,6 +93,16 @@ export const journalingSurveyConfig: SurveyConfig = {
         "Your thoughts on AI-generated insights from your journal entries...",
     },
     {
+      id: "media_integration",
+      type: "radio",
+      label: "Would want to attach pictures/videos to your journal entries?",
+      required: true,
+      options: [
+        { label: "Yes", value: "yes" },
+        { label: "No", value: "no" },
+      ],
+    },
+    {
       id: "insight_preferences",
       type: "checkbox",
       label:
@@ -122,9 +132,7 @@ export const journalingSurveyConfig: SurveyConfig = {
       required: true,
       options: [
         { label: "Very appealing", value: "very_appealing" },
-        { label: "Somewhat appealing", value: "somewhat_appealing" },
         { label: "Neutral", value: "neutral" },
-        { label: "Somewhat unappealing", value: "somewhat_unappealing" },
         { label: "Not appealing at all", value: "not_appealing" },
       ],
     },

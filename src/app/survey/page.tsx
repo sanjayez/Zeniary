@@ -11,6 +11,7 @@ import {
   SurveySubmissionData,
 } from "./surveyTypes";
 import { journalingSurveyConfig } from "./surveyConfig";
+import { useScrollDepthTracking } from "@/hooks/useScrollDepthTracking";
 
 const SurveyPage = () => {
   const [surveyConfig, setSurveyConfig] = useState<SurveyConfig | null>(null);
@@ -54,6 +55,12 @@ const SurveyPage = () => {
       });
     }
   }, [formData]);
+
+  // Add custom scroll tracking for surveys
+  useScrollDepthTracking({
+    thresholds: [20, 40, 60, 80, 100],
+    pageIdentifier: "survey_page",
+  });
 
   const validateForm = (): boolean => {
     let isValid = true;
@@ -299,8 +306,8 @@ const SurveyPage = () => {
   }
 
   return (
-    <section className="min-h-screen bg-background flex pt-16 px-4 md:pt-20">
-      <div className="mx-auto max-w-[1200px] py-8 px-12 md:py-12">
+    <section className="min-h-screen bg-background flex pt-16 px-2 md:pt-20">
+      <div className="mx-auto max-w-[1200px] py-8 px-4 sm:px-8 md:px-12 md:py-12 w-full">
         <div className="flex flex-col gap-8 md:gap-12 lg:flex-row lg:gap-24">
           {/* Left Column */}
           <div className="w-full lg:w-1/3">
@@ -332,7 +339,7 @@ const SurveyPage = () => {
           {/* Right Column - Form */}
           <div className="w-full lg:flex-1">
             <div className="rounded-xl md:rounded-2xl p-[1px] relative bg-gradient-to-b from-gray-800 to-transparent">
-              <div className="rounded-xl md:rounded-2xl bg-gradient-to-b from-[#0F1211] to-transparent p-6 md:p-8 backdrop-blur-sm">
+              <div className="rounded-xl md:rounded-2xl bg-gradient-to-b from-[#0F1211] to-transparent p-4 sm:p-6 md:p-8 backdrop-blur-sm">
                 <form
                   onSubmit={handleSubmit}
                   noValidate
