@@ -35,7 +35,6 @@ export default function Home() {
       <section ref={dashboardSectionRef}>
         <Dashboard />
       </section>
-      {/* <GreenBlobSidekick /> */}
       <section ref={privacySectionRef}>
         <Privacy />
       </section>
