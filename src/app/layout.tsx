@@ -32,7 +32,10 @@ export default function RootLayout({
       <body
         className={`${roboto.className} ${dawning.variable} antialiased text-white`}
       >
-        <ToastContainer />
+        <ToastContainer
+          className="!max-w-[calc(100%-2rem)] !left-[50%] !-translate-x-1/2"
+          position="top-center"
+        />
         <Navbar />
         {children}
         <Footer />

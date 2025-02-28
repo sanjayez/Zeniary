@@ -17,14 +17,13 @@ const CardDetail: React.FC<CardDetailProps> = ({
   return (
     <div
       className={classNames(
-        "max-w-sm mx-auto text-center md:text-left",
+        "max-w-sm mx-auto md:text-left",
         !noMarginBottom && "mb-8",
+        { "text-center": !className?.includes("text-") },
         className
       )}
     >
-      <h2 className="text-white text-lg md:text-xl font-semibold mb-1">
-        {title}
-      </h2>
+      <h2 className="text-white text-lg font-semibold mb-1">{title}</h2>
       <p className="text-sm md:text-base text-gray-400">{description}</p>
     </div>
   );

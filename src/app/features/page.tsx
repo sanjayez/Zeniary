@@ -62,7 +62,7 @@ const Page = () => {
   return (
     <div
       id="features"
-      className="bg-background min-h-screen flex items-center justify-center p-4 w-full relative mt-64"
+      className="bg-background min-h-screen flex items-center justify-center p-4 w-full relative mt-64 mb-64"
     >
       <div className="absolute -top-36 md:-top-[500px] left-0 w-full h-full">
         <GreenBlobSidekick />
