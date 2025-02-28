@@ -10,7 +10,7 @@ const index = () => {
         </h1>
       </div>
       <Email location="bottom_cta" />
-      <p className="mt-8">
+      <p className="mt-8 text-center px-6">
         Like what you see? Mind taking a{" "}
         <Link href="/survey">
           <span className="text-green-500 underline"> quick survey </span>
