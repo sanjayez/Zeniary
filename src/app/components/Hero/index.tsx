@@ -67,7 +67,7 @@ const index: React.FC = () => {
           Document Your Journey
         </h1>
         <p className="pt-2 text-lg md:text-2xl">A Journal You Can Query Into</p>
-        <Email className="mt-6" />
+        <Email className="mt-6" location="hero_cta" />
       </div>
       <HeroMask />
     </section>

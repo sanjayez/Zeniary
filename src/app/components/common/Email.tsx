@@ -10,6 +10,7 @@ type EmailStatus = "idle" | "loading" | "success" | "error";
 
 interface EmailProps {
   className?: string;
+  location?: string;
 }
 
 interface WaitlistEntry {
@@ -17,7 +18,7 @@ interface WaitlistEntry {
   created_at: string;
 }
 
-const Email: React.FC<EmailProps> = ({ className }) => {
+const Email: React.FC<EmailProps> = ({ className, location = "unknown" }) => {
   const [email, setEmail] = useState<string>("");
   const [status, setStatus] = useState<EmailStatus>("idle");
 
@@ -34,9 +35,10 @@ const Email: React.FC<EmailProps> = ({ className }) => {
     e.preventDefault();
     setStatus("loading");
 
-    // Track Email CTA Click event
+    // Track Email CTA Click event with location information
     posthog.capture("Email CTA Click", {
-      location: window.location.pathname,
+      location: location,
+      page_path: window.location.pathname,
     });
 
     const sanitizedEmail = sanitizeEmail(email);
