@@ -1,5 +1,6 @@
 import React from "react";
 import Email from "../common/Email";
+import Link from "next/link";
 const index = () => {
   return (
     <div className="min-h-96 mt-8 flex flex-col gap-4 items-center w-full justify-center">
@@ -8,7 +9,14 @@ const index = () => {
           Get Access To Early Beta.
         </h1>
       </div>
-      <Email />
+      <Email location="bottom_cta" />
+      <p className="mt-8">
+        Like what you see? Mind taking a{" "}
+        <Link href="/survey">
+          <span className="text-green-500 underline"> quick survey </span>
+        </Link>{" "}
+        to provide valuable feedback?
+      </p>
     </div>
   );
 };

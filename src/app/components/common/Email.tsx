@@ -4,11 +4,13 @@ import React, { useState, FormEvent } from "react";
 import classNames from "classnames";
 import supabase from "@/utils/supabase";
 import { toastError, toastSuccess, toastWarning } from "@/utils/toast";
+import posthog from "posthog-js";
 
 type EmailStatus = "idle" | "loading" | "success" | "error";
 
 interface EmailProps {
   className?: string;
+  location?: string;
 }
 
 interface WaitlistEntry {
@@ -16,7 +18,7 @@ interface WaitlistEntry {
   created_at: string;
 }
 
-const Email: React.FC<EmailProps> = ({ className }) => {
+const Email: React.FC<EmailProps> = ({ className, location = "unknown" }) => {
   const [email, setEmail] = useState<string>("");
   const [status, setStatus] = useState<EmailStatus>("idle");
 
@@ -52,10 +54,19 @@ const Email: React.FC<EmailProps> = ({ className }) => {
       if (error) {
         if (error.code === "23505") {
           toastWarning("This email is already on the waitlist");
+          // Don't track as a new submission if the email is already on the waitlist
         } else {
           throw error;
         }
       } else {
+        // Only track successful email submissions
+        posthog.capture("Email CTA Click", {
+          location: location,
+          page_path: window.location.pathname,
+          email_domain: sanitizedEmail.split("@")[1], // Track email domain for analytics
+          status: "success",
+        });
+
         toastSuccess("Thanks! You are on the waitlist.");
         setEmail("");
       }
