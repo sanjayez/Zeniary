@@ -40,12 +40,7 @@ export const useScrollDepthTracking = ({
       const scrollDistance = scrollY + viewportHeight;
 
       // Calculate scroll percentage (0-100)
-      const scrollPercentage = Math.min(
-        Math.round((scrollDistance / docHeight) * 100),
-        100
-      );
-
-      return scrollPercentage;
+      return Math.min(Math.round((scrollDistance / docHeight) * 100), 100);
     };
 
     const handleScroll = () => {

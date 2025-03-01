@@ -89,7 +89,7 @@ export function Navbar() {
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="px-2 pt-2 pb-3 space-y-1 bg-black/40 backdrop-blur-md h-screen flex flex-col justify-center items-center"
+              className="px-2 pb-3 space-y-1 bg-black/40 backdrop-blur-md h-screen flex flex-col justify-center items-center"
               initial={{ y: -20 }}
               animate={{ y: 0 }}
               exit={{ y: -20 }}

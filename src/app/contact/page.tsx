@@ -75,7 +75,6 @@ const Contact = () => {
         ...formData,
         created_at: new Date().toISOString(),
         status: "new", // Initial status for the query
-        user_agent: navigator.userAgent,
         screen_size: `${window.innerWidth}x${window.innerHeight}`,
       };
 

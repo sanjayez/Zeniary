@@ -1,9 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import GreenBlobSidekick from "../common/GreenBlobSidekick";
 
 const Privacy = () => {
   return (
-    <div className="w-full bg-background md:min-h-96 md:flex md:flex-col md:items-center md:justify-center">
+    <div className="w-full bg-background md:min-h-96 md:flex md:flex-col md:items-center md:justify-center relative">
+      <div className="absolute -top-60 md:-top-[1000px] left-0 w-full h-full">
+        <GreenBlobSidekick />
+      </div>
       <div className="w-24 h-24 mx-auto flex items-center justify-center">
         <Image src="/Lock.svg" width={108} alt="chat-icon" height={108} />
       </div>
@@ -17,7 +21,7 @@ const Privacy = () => {
                 Journal without fear
               </span>
               <span className="ml-2 font-light text-xl md:text-2xl">
-                &mdash; We Keep The Snoops Out 🤫
+                &mdash; We Keep The Snoops Out 👮
               </span>
             </h2>
 
