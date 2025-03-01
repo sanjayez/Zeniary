@@ -47,6 +47,6 @@ export interface ConditionalFieldsState {
 export interface SurveySubmissionData extends FormData {
   survey_id: string;
   created_at: string;
-  user_agent: string;
+  user_agent?: string;
   screen_size: string;
 }

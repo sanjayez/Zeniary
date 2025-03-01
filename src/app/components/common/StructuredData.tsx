@@ -1,114 +1,59 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 interface StructuredDataProps {
   title?: string;
   description?: string;
   imageUrl?: string;
   type?: "WebSite" | "WebPage" | "Article" | "SoftwareApplication";
-  datePublished?: string;
-  dateModified?: string;
 }
 
 export default function StructuredData({
-  title = "Zeniary – The Chatty Empathetic Sidekick",
+  title = "Zeniary – Your Thoughts, Smarter.",
   description = "Transform your journaling experience with Zeniary, a privacy-first journaling app that combines voice and text input with personalized AI insights.",
   imageUrl = "/og-image.svg",
   type = "WebSite",
-  datePublished,
-  dateModified,
 }: StructuredDataProps) {
   const pathname = usePathname();
   const baseUrl = "https://zeniary.app";
   const currentUrl = `${baseUrl}${pathname}`;
 
-  // Base structured data for the website
-  const websiteData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Zeniary",
-    url: baseUrl,
-    description:
-      "Privacy-first journaling app with personalized AI insights for emotional wellness and productivity",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${baseUrl}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
-  // Structured data for the current page
-  const pageData = {
-    "@context": "https://schema.org",
-    "@type": type,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": currentUrl,
-    },
-    headline: title,
-    description: description,
-    image: `${baseUrl}${imageUrl}`,
-    url: currentUrl,
-    ...(datePublished && { datePublished }),
-    ...(dateModified && { dateModified }),
-    author: {
-      "@type": "Organization",
+  useEffect(() => {
+    // Create a single structured data object with essential information
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": type,
       name: "Zeniary",
-      url: baseUrl,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Zeniary",
-      logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/zeniary-logo.svg`,
-      },
-    },
-  };
+      url: currentUrl,
+      description: description,
+      image: `${baseUrl}${imageUrl}`,
+    };
 
-  // Software application specific data
-  const appData =
-    type === "SoftwareApplication"
-      ? {
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "Zeniary",
-          applicationCategory: "LifestyleApplication",
-          operatingSystem: "Web, iOS, Android",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-            availability: "https://schema.org/ComingSoon",
-          },
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.8",
-            ratingCount: "210",
-          },
-        }
-      : null;
+    // Create and append script safely
+    if (typeof window !== "undefined") {
+      if (!scriptRef.current) {
+        const script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.textContent = JSON.stringify(structuredData);
+        document.head.appendChild(script);
+        scriptRef.current = script;
+      } else {
+        scriptRef.current.textContent = JSON.stringify(structuredData);
+      }
+    }
 
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageData) }}
-      />
-      {appData && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(appData) }}
-        />
-      )}
-    </>
-  );
+    // Cleanup function
+    return () => {
+      if (scriptRef.current) {
+        scriptRef.current.remove();
+      }
+    };
+  }, [baseUrl, currentUrl, title, description, imageUrl, type]);
+
+  // Component doesn't render anything visible
+  return null;
 }

@@ -16,6 +16,6 @@ export interface ContactFormErrors {
 export interface ContactSubmissionData extends ContactFormData {
   created_at: string;
   status: "new" | "in-progress" | "resolved" | "closed";
-  user_agent: string;
+  user_agent?: string;
   screen_size: string;
 }
