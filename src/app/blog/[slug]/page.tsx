@@ -6,13 +6,12 @@ import MarkdownContent from '../components/MarkdownContent';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
+interface PageProps {
+  params: { slug: string };
+  searchParams: Record<string, string | string[] | undefined>;
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
@@ -39,7 +38,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params }: Pick<PageProps, 'params'>) {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
