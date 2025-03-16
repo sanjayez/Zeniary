@@ -5,7 +5,13 @@ import { blogPosts } from '../data';
 import MarkdownContent from '../components/MarkdownContent';
 import { notFound } from 'next/navigation';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({ params }: Params) {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
@@ -32,7 +38,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default function BlogPostPage({ params }: Params) {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
