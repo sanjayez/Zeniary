@@ -4,14 +4,15 @@ import Link from 'next/link';
 import { blogPosts } from '../data';
 import MarkdownContent from '../components/MarkdownContent';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
-type Params = {
+type Props = {
   params: {
     slug: string;
   };
 };
 
-export async function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
@@ -38,7 +39,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: Params) {
+export default function BlogPostPage({ params }: Props) {
   const post = blogPosts.find(post => post.slug === params.slug);
   
   if (!post) {
