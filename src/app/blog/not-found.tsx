@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="mx-auto max-w-[800px] py-8 px-4 md:px-0 md:py-12 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">Page Not Found</h1>
         <p className="text-xl text-gray-300 mb-8">
-          Sorry, the page you're looking for doesn't exist or has been moved.
+          Sorry, the page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         <Link 
           href="/" 
