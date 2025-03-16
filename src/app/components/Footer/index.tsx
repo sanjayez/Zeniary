@@ -26,6 +26,13 @@ export default function Footer() {
               {link.name}
             </Link>
           ))}
+          <Link
+              key={'contact'}
+              href={'/contact'}
+              className="block hover:text-white transition-colors text-sm lg:text-base text-gray-400"
+            >
+              {'Contact'}
+            </Link>
         </nav>
       </div>
     </footer>
