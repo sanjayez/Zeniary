@@ -7,13 +7,16 @@ import MarkdownContent from '../components/MarkdownContent';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
-interface PageProps {
-  params: { slug: string };
-  searchParams: Record<string, string | string[] | undefined>;
-}
+// Keep a simple interface for the params to avoid complex type issues
+type BlogParams = {
+  params: {
+    slug: string;
+  };
+};
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const post = blogPosts.find(post => post.slug === params.slug);
+export async function generateMetadata({ params }: BlogParams) {
+  const slug = params.slug;
+  const post = blogPosts.find(post => post.slug === slug);
   
   if (!post) {
     return {
@@ -33,15 +36,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return blogPosts.map(post => ({
     slug: post.slug,
   }));
 }
 
-// @ts-ignore - Bypass type checking for Next.js Page props
-export default async function BlogPostPage({ params }) {
-  const post = blogPosts.find(post => post.slug === params.slug);
+export default function BlogPostPage({ params }: BlogParams) {
+  // Extract the slug from params
+  const slug = params.slug;
+  const post = blogPosts.find(post => post.slug === slug);
   
   if (!post) {
     notFound();
