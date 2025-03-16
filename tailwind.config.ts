@@ -35,7 +35,41 @@ export default {
       animation: {
         "border-spin": "border-spin 7s linear infinite",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#fff',
+            a: {
+              color: '#50BA65',
+              '&:hover': {
+                color: '#3a8a4a',
+              },
+            },
+            h1: {
+              color: '#fff',
+            },
+            h2: {
+              color: '#fff',
+            },
+            h3: {
+              color: '#fff',
+            },
+            h4: {
+              color: '#fff',
+            },
+            strong: {
+              color: '#fff',
+            },
+            code: {
+              color: '#fff',
+            },
+            blockquote: {
+              color: '#d1d5db',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } satisfies Config;
