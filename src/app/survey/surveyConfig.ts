@@ -5,7 +5,7 @@ export const journalingSurveyConfig: SurveyConfig = {
   id: "journaling-habits",
   title: "Feedback Form",
   description:
-    "Help us understand your journaling preferences to create a better experience. This should take about 5 minutes to complete.",
+    "Help us understand your journaling preferences to create a better experience. This should take about 3 minutes to complete.",
   fields: [
     {
       id: "name",
@@ -30,7 +30,6 @@ export const journalingSurveyConfig: SurveyConfig = {
         { label: "Daily", value: "daily" },
         { label: "A few times a week", value: "few_times_week" },
         { label: "Occasionally", value: "occasionally" },
-        { label: "Never", value: "never" },
       ],
     },
     {
@@ -51,26 +50,21 @@ export const journalingSurveyConfig: SurveyConfig = {
     {
       id: "privacy_importance",
       type: "radio",
-      label:
-        "On a scale of 1-5, how important is data privacy when choosing a journaling app?",
+      label: "how important is data privacy when choosing a journaling app?",
       required: true,
       options: [
         { label: "Extremely important", value: "1" },
         { label: "Moderately important", value: "2" },
-        { label: "Extremely important", value: "3" },
+        { label: "Not much important", value: "3" },
       ],
     },
     {
-      id: "voice_comfort",
-      type: "radio",
+      id: "pain_points",
+      type: "textarea",
       label:
-        "How comfortable are you with using voice input to record your thoughts?",
-      required: true,
-      options: [
-        { label: "Very comfortable", value: "very_comfortable" },
-        { label: "Neutral", value: "neutral" },
-        { label: "Somewhat uncomfortable", value: "somewhat_uncomfortable" },
-      ],
+        "What are your current pain points when journaling digitally? if any.",
+      required: false,
+      placeholder: "I really wish I could...",
     },
     {
       id: "personalized_insights",
@@ -87,20 +81,10 @@ export const journalingSurveyConfig: SurveyConfig = {
       id: "insights_elaboration",
       type: "textarea",
       label:
-        "Please elaborate on why you would or wouldn't find value in personalized insights",
+        "Please elaborate on why you would or wouldn't find value in personalized insights (Optional)",
       required: false,
       placeholder:
         "Your thoughts on AI-generated insights from your journal entries...",
-    },
-    {
-      id: "media_integration",
-      type: "radio",
-      label: "Would want to attach pictures/videos to your journal entries?",
-      required: true,
-      options: [
-        { label: "Yes", value: "yes" },
-        { label: "No", value: "no" },
-      ],
     },
     {
       id: "insight_preferences",
@@ -121,7 +105,7 @@ export const journalingSurveyConfig: SurveyConfig = {
       id: "insight_other",
       type: "text",
       label: "If you selected 'Other' above, please specify",
-      required: false,
+      required: true,
       placeholder: "Other insights you'd find valuable...",
     },
     {
@@ -137,46 +121,15 @@ export const journalingSurveyConfig: SurveyConfig = {
       ],
     },
     {
-      id: "data_storage",
-      type: "radio",
-      label:
-        "Do you prefer your journal data to be stored only on your device or also backed up on secure private servers?",
-      required: true,
-      options: [
-        { label: "Only on-device", value: "only_device" },
-        { label: "Backed up securely", value: "backed_up" },
-        { label: "No preference", value: "no_preference" },
-      ],
-    },
-    {
-      id: "integrations",
-      type: "radio",
-      label:
-        "Would integration with tools like Notion or Obsidian enhance your journaling experience?",
-      required: false,
-      options: [
-        { label: "Yes", value: "yes" },
-        { label: "No", value: "no" },
-      ],
-    },
-    {
-      id: "feature_gaps",
-      type: "textarea",
-      label:
-        "What's missing in your current journaling process that you'd like to see in a new app?",
-      required: false,
-      placeholder: "Features or capabilities you wish you had...",
-    },
-    {
       id: "adoption_likelihood",
       type: "select",
       label:
         "On a scale of 1-10, how likely are you to switch to an app that combines voice and text journaling with personalized AI insights?",
       required: true,
       options: [
-        { label: "Not likely at all", value: "1" },
+        { label: "Extremely likely", value: "1" },
         { label: "Neutral", value: "2" },
-        { label: "Extremely likely", value: "3" },
+        { label: "Not likely at all", value: "3" },
       ],
     },
   ],
